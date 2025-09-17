@@ -237,17 +237,18 @@
         ctx.fillText(type.emoji, fx, fy);
         ctx.restore();
 
-        // collect?
-        const monkeyCx = treePositions[monkeyCol] + treeCenterOffset;
-        const monkeyCy = monkeyY;
-        if (rectsOverlap(monkeyCx, monkeyCy, MONKEY_W, MONKEY_H, fx, fy, FRUIT_W, FRUIT_H)) {
-          score += type.points;
-          fruits.splice(i, 1);
+        // check if Laddu eats fruit
+        let dx = Math.abs(fx - (treePositions[monkeyCol] + 12));
+        let dy = Math.abs(fy - monkeyY);
+        if (dx < 20 && dy < 20)
+         {
+          score += fruits[i].type.points; // ✅ score increases only when eating fruit
+          fruits.splice(i, 1);             // remove collected fruit
           i--;
-        }
+         }
       }
 
-      // draw monkey (centered)
+      // draw laddu (centered)
       ctx.save();
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
@@ -256,7 +257,7 @@
       ctx.restore();
 
       // score
-      if (!gameOver) score++;
+      if (!gameOver) ;
       // score (top-right corner, always visible)
         ctx.fillStyle = "black";
         ctx.font = "18px Arial";
@@ -272,7 +273,8 @@
         ctx.fillStyle = "white";
         ctx.font = "28px Arial";
         ctx.textAlign = "center";
-        ctx.fillText("Game Over!", canvas.width/2, canvas.height/2 - 10);
+        ctx.fillText("Game Over!", canvas.width/2, canvas.height/2 - 54);
+        ctx.fillText("Laddu Lost", canvas.width/2, canvas.height/2 - 10);
         ctx.font = "16px Arial";
         ctx.fillText("Tap to restart", canvas.width/2, canvas.height/2 + 24);
       }
